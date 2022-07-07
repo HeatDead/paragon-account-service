@@ -21,16 +21,16 @@ public class AuthController {
 
     @PostMapping
     public ResponseEntity<String> register(@RequestBody User user) throws RegistrationException {
-        clientService.register(user.getClientId(), user.getClientSecret());
+        clientService.register(user.getUsername(), user.getPassword());
         return ResponseEntity.ok("Registered");
     }
 
     @PostMapping("/token")
     public TokenResponse getToken(@RequestBody User user) throws LoginException {
         clientService.checkCredentials(
-                user.getClientId(), user.getClientSecret());
+                user.getUsername(), user.getPassword());
         return new TokenResponse(
-                tokenService.generateToken(user.getClientId()));
+                tokenService.generateToken(user.getUsername()));
     }
 
     @ExceptionHandler({RegistrationException.class, LoginException.class})

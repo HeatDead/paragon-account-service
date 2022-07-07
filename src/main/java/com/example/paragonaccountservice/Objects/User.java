@@ -4,6 +4,6 @@ import lombok.Value;
 
 @Value
 public class User {
-    String clientId;
-    String clientSecret;
+    String username;
+    String password;
 }
