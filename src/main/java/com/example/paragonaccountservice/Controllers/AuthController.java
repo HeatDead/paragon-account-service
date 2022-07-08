@@ -14,6 +14,7 @@ import javax.security.auth.login.LoginException;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin
 @RequiredArgsConstructor
 public class AuthController {
     private final ClientService clientService;
