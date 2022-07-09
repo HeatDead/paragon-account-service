@@ -22,7 +22,7 @@ public class DefaultClientService implements ClientService{
                     "Client with id: " + clientId + " already registered");
 
         String hash = BCrypt.hashpw(clientSecret, BCrypt.gensalt());
-        userRepository.save(new ClientEntity(clientId, hash));
+        userRepository.save(new ClientEntity(clientId, "CLIENT", hash));
     }
 
     @Override
