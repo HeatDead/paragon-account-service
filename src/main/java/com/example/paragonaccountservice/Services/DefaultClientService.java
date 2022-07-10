@@ -16,17 +16,17 @@ public class DefaultClientService implements ClientService{
     private final ClientRepository userRepository;
 
     @Override
-    public void register(String clientId, String clientSecret) throws RegistrationException {
+    public void register(String clientId, String clientSecret, String name, String surname, String patronymic) throws RegistrationException {
         if(userRepository.findById(clientId).isPresent())
             throw new RegistrationException(
                     "Client with id: " + clientId + " already registered");
 
         String hash = BCrypt.hashpw(clientSecret, BCrypt.gensalt());
-        userRepository.save(new ClientEntity(clientId, "CLIENT", hash));
+        userRepository.save(new ClientEntity(clientId, hash, "CLIENT", name, surname, patronymic));
     }
 
     @Override
-    public void checkCredentials(String clientId, String clientSecret) throws LoginException {
+    public void checkCredentials(String clientId, String clientPassword) throws LoginException {
         Optional<ClientEntity> optionalUserEntity = userRepository
                 .findById(clientId);
         if (optionalUserEntity.isEmpty())
@@ -35,7 +35,7 @@ public class DefaultClientService implements ClientService{
 
         ClientEntity clientEntity = optionalUserEntity.get();
 
-        if (!BCrypt.checkpw(clientSecret, clientEntity.getHash()))
-            throw new LoginException("Secret is incorrect");
+        if (!BCrypt.checkpw(clientPassword, clientEntity.getHash()))
+            throw new LoginException("Password is incorrect");
     }
 }

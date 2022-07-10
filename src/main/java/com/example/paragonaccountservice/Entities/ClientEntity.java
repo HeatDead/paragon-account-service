@@ -18,6 +18,12 @@ public class ClientEntity {
     @Id
     @Column(name = "client_id")
     private String clientId;
-    private String role;
+
     private String hash;
+
+    private String role;
+
+    private String name;
+    private String surname;
+    private String patronymic;
 }

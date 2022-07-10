@@ -4,6 +4,7 @@ import com.example.paragonaccountservice.Exceptions.RegistrationException;
 import com.example.paragonaccountservice.Objects.User;
 import com.example.paragonaccountservice.Responses.ErrorResponse;
 import com.example.paragonaccountservice.Responses.TokenResponse;
+import com.example.paragonaccountservice.Services.AccountService;
 import com.example.paragonaccountservice.Services.ClientService;
 import com.example.paragonaccountservice.Services.TokenService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class AuthController {
 
     @PostMapping
     public ResponseEntity<String> register(@RequestBody User user) throws RegistrationException {
-        clientService.register(user.getUsername(), user.getPassword());
+        clientService.register(user.getUsername(), user.getPassword(), user.getName(), user.getSurname(), user.getPatronymic());
         return ResponseEntity.ok("Registered");
     }
 

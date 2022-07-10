@@ -1,12 +1,10 @@
 package com.example.paragonaccountservice.Objects;
 
+import lombok.Data;
 import lombok.Value;
 
-@Value
-public class User {
-    String username;
-    String password;
-
+@Data
+public class Account {
     String name;
     String surname;
     String patronymic;
