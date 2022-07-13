@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/account")
@@ -26,5 +27,18 @@ public class AccountController {
 
         String token = authHeader.substring(7);
         return accountService.getUserInfo(token);
+    }
+
+    @GetMapping("/cars")
+    public List<Object> getUserCars(@RequestHeader HttpHeaders request){
+        String authHeader = request.getFirst(HttpHeaders.AUTHORIZATION);
+
+        if (!authHeader.startsWith("Bearer ")){
+            System.out.println(authHeader + " - " + "no 'Bearer'");
+            return null;
+        }
+
+        String token = authHeader.substring(7);
+        return accountService.getUserCars(token);
     }
 }
