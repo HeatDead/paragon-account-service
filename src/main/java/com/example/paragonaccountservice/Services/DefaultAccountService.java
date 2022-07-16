@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.naming.AuthenticationException;
 import java.util.List;
 
 @Service
@@ -28,27 +29,28 @@ public class DefaultAccountService implements AccountService{
 
     @Override
     public Account getUserInfo(String token) {
-        if(tokenService.checkToken(token))
-        {
-            Account account = new Account();
-            Algorithm algorithm = Algorithm.HMAC256(secretKey);
-            JWTVerifier verifier = JWT.require(algorithm).build();
-            DecodedJWT decodedJWT = verifier.verify(token);
+        try {
+            if (tokenService.checkToken(token)) {
+                Account account = new Account();
+                Algorithm algorithm = Algorithm.HMAC256(secretKey);
+                JWTVerifier verifier = JWT.require(algorithm).build();
+                DecodedJWT decodedJWT = verifier.verify(token);
 
-            ClientEntity clientEntity = clientRepository.findById(decodedJWT.getSubject()).get();
+                ClientEntity clientEntity = clientRepository.findById(decodedJWT.getSubject()).get();
 
-            account.setUsername(clientEntity.getClientId());
-            account.setName(clientEntity.getName());
-            account.setSurname(clientEntity.getSurname());
-            account.setPatronymic(clientEntity.getPatronymic());
+                account.setUsername(clientEntity.getClientId());
+                account.setName(clientEntity.getName());
+                account.setSurname(clientEntity.getSurname());
+                account.setPatronymic(clientEntity.getPatronymic());
 
-            return account;
-        }
+                return account;
+            }
+        }catch (Exception e){}
         return null;
     }
 
     @Override
-    public List<Object> getUserCars(String token) {
+    public List<Object> getUserCars(String token) throws Exception{
         if(tokenService.checkToken(token))
         {
             Algorithm algorithm = Algorithm.HMAC256(secretKey);
@@ -59,6 +61,6 @@ public class DefaultAccountService implements AccountService{
 
             return mainServiceClient.getAllCarsOfUser(clientEntity.getClientId());
         }
-        return null;
+        throw new AuthenticationException("");
     }
 }

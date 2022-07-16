@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface AccountService {
     Account getUserInfo(String token);
-    List<Object> getUserCars(String token);
+    List<Object> getUserCars(String token) throws Exception;
 }
