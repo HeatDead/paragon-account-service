@@ -33,25 +33,23 @@ public class DefaultAccountService implements AccountService{
     private final OrdersServiceClient ordersServiceClient;
 
     @Override
-    public Account getUserInfo(String token) {
-        try {
-            if (tokenService.checkToken(token)) {
-                Account account = new Account();
-                Algorithm algorithm = Algorithm.HMAC256(secretKey);
-                JWTVerifier verifier = JWT.require(algorithm).build();
-                DecodedJWT decodedJWT = verifier.verify(token);
+    public Account getUserInfo(String token) throws Exception{
+        if (tokenService.checkToken(token)) {
+            Account account = new Account();
+            Algorithm algorithm = Algorithm.HMAC256(secretKey);
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            DecodedJWT decodedJWT = verifier.verify(token);
 
-                ClientEntity clientEntity = clientRepository.findById(decodedJWT.getSubject()).get();
+            ClientEntity clientEntity = clientRepository.findById(decodedJWT.getSubject()).get();
 
-                account.setUsername(clientEntity.getClientId());
-                account.setName(clientEntity.getName());
-                account.setSurname(clientEntity.getSurname());
-                account.setPatronymic(clientEntity.getPatronymic());
+            account.setUsername(clientEntity.getClientId());
+            account.setName(clientEntity.getName());
+            account.setSurname(clientEntity.getSurname());
+            account.setPatronymic(clientEntity.getPatronymic());
 
-                return account;
-            }
-        }catch (Exception e){}
-        return null;
+            return account;
+        }
+        throw new AuthenticationException("Incorrect token");
     }
 
     @Override
@@ -66,7 +64,7 @@ public class DefaultAccountService implements AccountService{
 
             return mainServiceClient.getAllCarsOfUser(clientEntity.getClientId());
         }
-        throw new AuthenticationException("");
+        throw new AuthenticationException("Incorrect token");
     }
 
     private HttpHeaders getHeader(){
@@ -105,6 +103,6 @@ public class DefaultAccountService implements AccountService{
 
             return userOrders;
         }
-        throw new AuthenticationException("");
+        throw new AuthenticationException("Incorrect token");
     }
 }

@@ -6,7 +6,7 @@ import com.example.paragonaccountservice.Objects.RepairOrder;
 import java.util.List;
 
 public interface AccountService {
-    Account getUserInfo(String token);
+    Account getUserInfo(String token) throws Exception;
     List<Object> getUserCars(String token) throws Exception;
     List<RepairOrder> getUserRepairOrders(String token, boolean state) throws Exception;
 }

@@ -34,11 +34,4 @@ public class AuthController {
         return new TokenResponse(
                 tokenService.generateToken(user.getUsername()));
     }
-
-    @ExceptionHandler({RegistrationException.class, LoginException.class})
-    public ResponseEntity<ErrorResponse> handleUserRegistrationException(RuntimeException ex) {
-        return ResponseEntity
-                .badRequest()
-                .body(new ErrorResponse(ex.getMessage()));
-    }
 }

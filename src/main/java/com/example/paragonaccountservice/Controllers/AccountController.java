@@ -19,7 +19,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @GetMapping
-    public Account getAccountInfo(@RequestHeader HttpHeaders request){
+    public Account getAccountInfo(@RequestHeader HttpHeaders request)  throws Exception{
         String authHeader = request.getFirst(HttpHeaders.AUTHORIZATION);
 
         if (!authHeader.startsWith("Bearer ")){

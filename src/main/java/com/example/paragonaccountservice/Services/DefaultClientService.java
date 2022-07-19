@@ -18,9 +18,13 @@ public class DefaultClientService implements ClientService{
     @Override
     public void register(String clientId, String clientSecret, String name, String surname, String patronymic) throws RegistrationException {
         //TODO сделать проверку полей
+        if(clientId.length() < 4 || clientSecret.length() < 6)
+            throw new RegistrationException(
+                    "Incorrect username or password");
+
         if(userRepository.findById(clientId).isPresent())
             throw new RegistrationException(
-                    "Client with id: " + clientId + " already registered");
+                    "Client with username - " + clientId + " already registered");
 
         String hash = BCrypt.hashpw(clientSecret, BCrypt.gensalt());
         userRepository.save(new ClientEntity(clientId, hash, "CLIENT", name, surname, patronymic));
@@ -32,11 +36,11 @@ public class DefaultClientService implements ClientService{
                 .findById(clientId);
         if (optionalUserEntity.isEmpty())
             throw new LoginException(
-                    "Client with id: " + clientId + " not found");
+                    "Client with username - " + clientId + " not found");
 
         ClientEntity clientEntity = optionalUserEntity.get();
 
         if (!BCrypt.checkpw(clientPassword, clientEntity.getHash()))
-            throw new LoginException("Password is incorrect");
+            throw new LoginException("Incorrect password");
     }
 }
