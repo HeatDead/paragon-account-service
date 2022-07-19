@@ -1,6 +1,7 @@
 package com.example.paragonaccountservice.Controllers;
 
 import com.example.paragonaccountservice.Objects.Account;
+import com.example.paragonaccountservice.Objects.RepairOrder;
 import com.example.paragonaccountservice.Services.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
@@ -39,5 +40,27 @@ public class AccountController {
 
         String token = authHeader.substring(7);
         return accountService.getUserCars(token);
+    }
+
+    @GetMapping("/repairOrders")
+    public List<RepairOrder> getUserRepairOrders(@RequestHeader HttpHeaders request) throws Exception{
+        String authHeader = request.getFirst(HttpHeaders.AUTHORIZATION);
+
+        if (!authHeader.startsWith("Bearer "))
+            throw new AuthenticationException(authHeader + " - " + "no 'Bearer'");
+
+        String token = authHeader.substring(7);
+        return accountService.getUserRepairOrders(token, false);
+    }
+
+    @GetMapping("/finishedRepairOrders")
+    public List<RepairOrder> getUserFinishedRepairOrders(@RequestHeader HttpHeaders request)  throws Exception{
+        String authHeader = request.getFirst(HttpHeaders.AUTHORIZATION);
+
+        if (!authHeader.startsWith("Bearer "))
+            throw new AuthenticationException(authHeader + " - " + "no 'Bearer'");
+
+        String token = authHeader.substring(7);
+        return accountService.getUserRepairOrders(token, true);
     }
 }

@@ -17,6 +17,7 @@ public class DefaultClientService implements ClientService{
 
     @Override
     public void register(String clientId, String clientSecret, String name, String surname, String patronymic) throws RegistrationException {
+        //TODO сделать проверку полей
         if(userRepository.findById(clientId).isPresent())
             throw new RegistrationException(
                     "Client with id: " + clientId + " already registered");

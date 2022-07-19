@@ -12,6 +12,6 @@ import java.util.Objects;
 
 @FeignClient(value = "paragon-main-service", url = "http://localhost:8080/")
 public interface MainServiceClient {
-    @RequestMapping(method = RequestMethod.GET, value = "/cars/carsOf?owner={owner}")
-    List<Object> getAllCarsOfUser(@PathVariable("owner") String owner);
+    @RequestMapping(method = RequestMethod.GET, value = "/cars/carsOf")
+    List<Object> getAllCarsOfUser(@RequestParam("owner") String owner);
 }
