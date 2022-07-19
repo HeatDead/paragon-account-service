@@ -18,7 +18,7 @@ import java.util.List;
 public class AccountController {
     private final AccountService accountService;
 
-    @GetMapping
+    @RequestMapping(method = RequestMethod.GET)
     public Account getAccountInfo(@RequestHeader HttpHeaders request)  throws Exception{
         String authHeader = request.getFirst(HttpHeaders.AUTHORIZATION);
 
@@ -31,7 +31,7 @@ public class AccountController {
         return accountService.getUserInfo(token);
     }
 
-    @GetMapping("/cars")
+    @RequestMapping(value = "/cars", method = RequestMethod.GET)
     public List<Object> getUserCars(@RequestHeader HttpHeaders request) throws Exception{
         String authHeader = request.getFirst(HttpHeaders.AUTHORIZATION);
 
@@ -42,7 +42,7 @@ public class AccountController {
         return accountService.getUserCars(token);
     }
 
-    @GetMapping("/repairOrders")
+    @RequestMapping(value = "/repairOrders", method = RequestMethod.GET)
     public List<RepairOrder> getUserRepairOrders(@RequestHeader HttpHeaders request) throws Exception{
         String authHeader = request.getFirst(HttpHeaders.AUTHORIZATION);
 
@@ -53,7 +53,7 @@ public class AccountController {
         return accountService.getUserRepairOrders(token, false);
     }
 
-    @GetMapping("/finishedRepairOrders")
+    @RequestMapping(value = "/finishedRepairOrders", method = RequestMethod.GET)
     public List<RepairOrder> getUserFinishedRepairOrders(@RequestHeader HttpHeaders request)  throws Exception{
         String authHeader = request.getFirst(HttpHeaders.AUTHORIZATION);
 
