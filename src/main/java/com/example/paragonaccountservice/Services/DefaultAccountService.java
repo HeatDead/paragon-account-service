@@ -8,12 +8,14 @@ import com.example.paragonaccountservice.Clients.MainServiceClient;
 import com.example.paragonaccountservice.Clients.OrdersServiceClient;
 import com.example.paragonaccountservice.Entities.ClientEntity;
 import com.example.paragonaccountservice.Objects.Account;
+import com.example.paragonaccountservice.Objects.Car;
 import com.example.paragonaccountservice.Objects.RepairOrder;
 import com.example.paragonaccountservice.Repositories.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.naming.AuthenticationException;
 import java.util.ArrayList;
@@ -49,11 +51,11 @@ public class DefaultAccountService implements AccountService{
 
             return account;
         }
-        throw new AuthenticationException("Incorrect token");
+        throw new AuthenticationException("Неверный токен");
     }
 
     @Override
-    public List<Object> getUserCars(String token) throws Exception{
+    public List<Car> getUserCars(String token) throws Exception{
         if(tokenService.checkToken(token))
         {
             Algorithm algorithm = Algorithm.HMAC256(secretKey);
@@ -64,7 +66,18 @@ public class DefaultAccountService implements AccountService{
 
             return mainServiceClient.getAllCarsOfUser(clientEntity.getClientId());
         }
-        throw new AuthenticationException("Incorrect token");
+        throw new AuthenticationException("Неверный токен");
+    }
+
+    @Override
+    public boolean belongCarToUser(@RequestParam Long id, String token) throws Exception{
+        List<Car> cars = getUserCars(token);
+
+        for (Car car : cars)
+            if(car.getId() == id)
+                return true;
+
+        return false;
     }
 
     private HttpHeaders getHeader(){
@@ -103,6 +116,6 @@ public class DefaultAccountService implements AccountService{
 
             return userOrders;
         }
-        throw new AuthenticationException("Incorrect token");
+        throw new AuthenticationException("Неверный токен");
     }
 }

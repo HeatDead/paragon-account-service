@@ -1,5 +1,6 @@
 package com.example.paragonaccountservice.Clients;
 
+import com.example.paragonaccountservice.Objects.Car;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,5 +14,5 @@ import java.util.Objects;
 @FeignClient(value = "paragon-main-service", url = "http://localhost:8080/")
 public interface MainServiceClient {
     @RequestMapping(method = RequestMethod.GET, value = "/cars/carsOf")
-    List<Object> getAllCarsOfUser(@RequestParam("owner") String owner);
+    List<Car> getAllCarsOfUser(@RequestParam("owner") String owner);
 }

@@ -1,6 +1,7 @@
 package com.example.paragonaccountservice.Controllers;
 
 import com.example.paragonaccountservice.Objects.Account;
+import com.example.paragonaccountservice.Objects.Car;
 import com.example.paragonaccountservice.Objects.RepairOrder;
 import com.example.paragonaccountservice.Services.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/cars", method = RequestMethod.GET)
-    public List<Object> getUserCars(@RequestHeader HttpHeaders request) throws Exception{
+    public List<Car> getUserCars(@RequestHeader HttpHeaders request) throws Exception{
         String authHeader = request.getFirst(HttpHeaders.AUTHORIZATION);
 
         if (!authHeader.startsWith("Bearer "))
@@ -40,6 +41,17 @@ public class AccountController {
 
         String token = authHeader.substring(7);
         return accountService.getUserCars(token);
+    }
+
+    @RequestMapping(value = "/checkCar", method = RequestMethod.GET)
+    public boolean belongCarToUser(@RequestParam Long id, @RequestHeader HttpHeaders request) throws Exception{
+        String authHeader = request.getFirst(HttpHeaders.AUTHORIZATION);
+
+        if (!authHeader.startsWith("Bearer "))
+            throw new AuthenticationException(authHeader + " - " + "no 'Bearer'");
+
+        String token = authHeader.substring(7);
+        return accountService.belongCarToUser(id, token);
     }
 
     @RequestMapping(value = "/repairOrders", method = RequestMethod.GET)
