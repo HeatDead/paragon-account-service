@@ -4,7 +4,7 @@ import com.example.paragonaccountservice.Entities.ClientEntity;
 import com.example.paragonaccountservice.Exceptions.RegistrationException;
 import com.example.paragonaccountservice.Repositories.ClientRepository;
 import lombok.RequiredArgsConstructor;
-import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.LoginException;
