@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-@FeignClient(value = "paragon-orders-service", url = "http://localhost:8082/")
+@FeignClient(value = "paragon-orders-service", url = "http://ordersService:8082/")
 public interface OrdersServiceClient {
     @RequestMapping(method = RequestMethod.GET, value = "/orders/repairOrders")
     List<RepairOrder> getRepairOrders(@RequestHeader HttpHeaders request);

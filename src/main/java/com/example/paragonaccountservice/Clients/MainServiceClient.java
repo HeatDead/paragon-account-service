@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 
-@FeignClient(value = "paragon-main-service", url = "http://localhost:8080/")
+@FeignClient(value = "paragon-main-service", url = "http://mainService:8080/")
 public interface MainServiceClient {
     @RequestMapping(method = RequestMethod.GET, value = "/cars/carsOf")
     List<Car> getAllCarsOfUser(@RequestParam("owner") String owner);
