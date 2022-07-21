@@ -1,7 +1,6 @@
 package com.example.paragonaccountservice.Controllers;
 
 import com.example.paragonaccountservice.Exceptions.RegistrationException;
-import com.example.paragonaccountservice.Responses.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
